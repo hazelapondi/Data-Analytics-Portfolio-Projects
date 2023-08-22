@@ -5,4 +5,4 @@
 ![Covid-19 across the globe](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/img/covid.png)
 
 Using SQL for Data Exploration of the Covid-19 Deaths and Vaccinations from a data set obtained from [Our World in Data](https://ourworldindata.org/covid-deaths "Coronavirus").
-After downloading the proper data set, I reformatted as necessary. The data captures confirmed deaths from Covid-19 from Jan 2021.
+After downloading the proper data set, I reformatted as necessary. The data captures confirmed deaths from Covid-19 from Jan 2021. I explored cases, deaths and vaccinations to learn more about statistics such as the global & regional death and infection percentages, the population vs number of people vaccinated among others.
