@@ -1,4 +1,4 @@
-USE md_water_services;
+USE md_water_services; 
 
 -- Determine number of sources for each location type
 SELECT DISTINCT(location_type),
@@ -214,19 +214,18 @@ FROM Incorrect_records;
 
 -- converting error_count into a CTE
 
-WITH 
-	error_count AS ( -- This CTE calculates the number of mistakes each employee made
-		SELECT
-			employee_name,
-			COUNT(employee_name) AS number_of_mistakes
-		FROM
-			Incorrect_records 
-		/*
-		Incorrect_records is a view that joins the audit report to the database for records where the auditor and employees scores are different
-    */
-		GROUP BY
-			employee_name)
-		-- Query
+WITH error_count AS ( -- This CTE calculates the number of mistakes each employee made
+	SELECT
+		employee_name,
+		COUNT(employee_name) AS number_of_mistakes
+	FROM
+		Incorrect_records 
+/*
+Incorrect_records is a view that joins the audit report to the database for records where the auditor and employees scores are different
+*/
+	GROUP BY
+		employee_name)
+-- Query
 SELECT 
 	employee_name,
 	number_of_mistakes
@@ -284,16 +283,19 @@ FROM
 	visits
 LEFT JOIN -- joining well_pollution and visits
 	well_pollution
-	ON	visits.source_id = well_pollution.source_id
+ON	
+	visits.source_id = well_pollution.source_id
 INNER JOIN -- joining location to visits
 	location
-	ON	visits.location_id = location.location_id
+ON	
+	visits.location_id = location.location_id
 INNER JOIN -- joining water_source and visits
 	water_source
-	ON	visits.source_id = water_source.source_id
+ON	
+	visits.source_id = water_source.source_id
 --  Filtering to ensure we only get one record for each location
 WHERE
-	 visits.visit_count = 1;
+	visits.visit_count = 1;
 
 
 -- Creating a CTE that calculates the population of each province
@@ -324,7 +326,8 @@ FROM
 	combined_analysis_table ct
 JOIN
 	province_totals pt 
-    	ON ct.province_name = pt.province_name
+ON 
+	ct.province_name = pt.province_name
 GROUP BY
 	ct.province_name
 ORDER BY
@@ -357,7 +360,9 @@ FROM
 	combined_analysis_table ct
 JOIN -- Since the town names are not unique, we have to join on a composite key
 	town_totals tt 
-    	ON ct.province_name = tt.province_name AND ct.town_name = tt.town_name
+ON 
+	ct.province_name = tt.province_name 
+	AND ct.town_name = tt.town_name
 GROUP BY -- We group by province first, then by town.
 	ct.province_name,
 	ct.town_name
@@ -404,10 +409,10 @@ SELECT
 	water_source.type_of_water_source,
 	well_pollution.results,
 	CASE 
-	WHEN water_source.type_of_water_source = 'well' THEN
-		IF(well_pollution.results = 'Contaminated: Biological', 'Install UV filter', 'Null') 
-	ELSE 
-		IF(well_pollution.results = 'Contaminated: Chemical', 'Install RO filter', 'Null')
+		WHEN water_source.type_of_water_source = 'well' THEN
+			IF(well_pollution.results = 'Contaminated: Biological', 'Install UV filter', 'Null') 
+		ELSE 
+			IF(well_pollution.results = 'Contaminated: Chemical', 'Install RO filter', 'Null')
 	END AS improvement_plan,    
 	CASE
 		WHEN water_source.type_of_water_source IN ('river') THEN
@@ -416,7 +421,7 @@ SELECT
 	CASE
 		WHEN water_source.type_of_water_source = 'shared_tap' AND visits.time_in_queue >= 30  
 		THEN CONCAT("Install ", FLOOR(visits.time_in_queue/30), " taps nearby")
-	ELSE NULL
+		ELSE NULL
 	END AS improvement_plan,
 	CASE
 		WHEN water_source.type_of_water_source IN ('tap_in_home_broken') THEN 'Diagnose local infrastructure'
@@ -425,13 +430,16 @@ FROM
 	water_source
 LEFT JOIN
 	well_pollution 
-    	ON water_source.source_id = well_pollution.source_id
+ON 
+	water_source.source_id = well_pollution.source_id
 INNER JOIN
 	visits 
-    	ON water_source.source_id = visits.source_id
+ON 
+	water_source.source_id = visits.source_id
 INNER JOIN
 	location 
-    	ON location.location_id = visits.location_id
+ON 
+	location.location_id = visits.location_id
 /*
 It joins the location, visits, and well_pollution tables to the water_source table. Since well_pollution only has data for wells,
 we have to join those records to the water_source table with a LEFT JOIN and we used visits to link the various id's together.
