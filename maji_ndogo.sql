@@ -276,10 +276,10 @@ SELECT
 	water_source.type_of_water_source AS source_type,
 	location.province_name,
 	location.town_name,
-  location.location_type,
-  water_source.number_of_people_served AS people_served,
-  visits.time_in_queue,
-  well_pollution.results
+	location.location_type,
+	water_source.number_of_people_served AS people_served,
+	visits.time_in_queue,
+	well_pollution.results
 FROM 
 	visits
 LEFT JOIN -- joining well_pollution and visits
@@ -404,22 +404,22 @@ SELECT
 	water_source.type_of_water_source,
 	well_pollution.results,
     CASE 
-		WHEN water_source.type_of_water_source = 'well' THEN
-			IF(well_pollution.results = 'Contaminated: Biological', 'Install UV filter', 'Null') 
+	WHEN water_source.type_of_water_source = 'well' THEN
+		IF(well_pollution.results = 'Contaminated: Biological', 'Install UV filter', 'Null') 
         ELSE 
-			IF(well_pollution.results = 'Contaminated: Chemical', 'Install RO filter', 'Null')
+		IF(well_pollution.results = 'Contaminated: Chemical', 'Install RO filter', 'Null')
 	END AS improvement_plan,    
 	CASE
 		WHEN water_source.type_of_water_source IN ('river') THEN
 		'Drill well'
 	END AS improvement_plan,
     CASE
-		WHEN water_source.type_of_water_source = 'shared_tap' AND visits.time_in_queue >= 30  
+	WHEN water_source.type_of_water_source = 'shared_tap' AND visits.time_in_queue >= 30  
         THEN CONCAT("Install ", FLOOR(visits.time_in_queue/30), " taps nearby")
 	ELSE NULL
     END AS improvement_plan,
     CASE
-		WHEN water_source.type_of_water_source IN ('tap_in_home_broken') THEN 'Diagnose local infrastructure'
+	WHEN water_source.type_of_water_source IN ('tap_in_home_broken') THEN 'Diagnose local infrastructure'
 	END AS improvement_plan
 FROM
 	water_source
