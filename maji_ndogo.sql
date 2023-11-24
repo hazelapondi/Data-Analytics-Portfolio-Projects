@@ -11,7 +11,7 @@ GROUP BY
 -- Determine how many wells, taps and rivers there are
 SELECT
 	DISTINCT(type_of_water_source),
-  COUNT(number_of_people_served) AS num_of_users
+	COUNT(number_of_people_served) AS num_of_users
 FROM
 	water_source
 GROUP BY 
@@ -20,7 +20,7 @@ GROUP BY
 -- Determine the number of people who share particular types of water sources on average
 SELECT
 	DISTINCT(type_of_water_source),
-  ROUND(AVG(number_of_people_served)) AS avg_num_of_users
+	ROUND(AVG(number_of_people_served)) AS avg_num_of_users
 FROM
 	water_source
 GROUP BY 
@@ -39,9 +39,9 @@ GROUP BY
 SELECT
 	source_id,
 	type_of_water_source,
-  number_of_people_served,
-  RANK () OVER (
-  ORDER BY number_of_people_served DESC) AS priority_rank
+	number_of_people_served,
+	RANK () OVER (
+	ORDER BY number_of_people_served DESC) AS priority_rank
 FROM
 	water_source
 GROUP BY
@@ -121,13 +121,13 @@ CREATE TABLE auditor_report (
 
 SELECT
 	location_id,
-  true_water_source_score
+	true_water_source_score
 FROM
 	auditor_report;
     
 WITH
 	Incorrect_records AS(
-    SELECT
+    	SELECT
 		auditor_report.location_id AS audit_location,
 		visits.record_id,
 		employee.employee_name,
@@ -178,7 +178,7 @@ WITH
 			employee_name)
 SELECT
 	employee_name,
-    number_of_mistakes
+	number_of_mistakes
 FROM
 	suspect_list;
 
@@ -229,7 +229,7 @@ WITH
 		-- Query
 SELECT 
 	employee_name,
-    number_of_mistakes
+	number_of_mistakes
 FROM 
 	error_count
 WHERE
@@ -267,7 +267,7 @@ FROM
 	Incorrect_records
 WHERE
 	employee_name in (SELECT employee_name FROM suspect_list)
-    AND statements LIKE "%cash%";
+    	AND statements LIKE "%cash%";
 
 
 -- Create a view that assembles data from different tables into one to simplify analysis
@@ -324,7 +324,7 @@ FROM
 	combined_analysis_table ct
 JOIN
 	province_totals pt 
-    ON ct.province_name = pt.province_name
+    	ON ct.province_name = pt.province_name
 GROUP BY
 	ct.province_name
 ORDER BY
@@ -357,7 +357,7 @@ FROM
 	combined_analysis_table ct
 JOIN -- Since the town names are not unique, we have to join on a composite key
 	town_totals tt 
-    ON ct.province_name = tt.province_name AND ct.town_name = tt.town_name
+    	ON ct.province_name = tt.province_name AND ct.town_name = tt.town_name
 GROUP BY -- We group by province first, then by town.
 	ct.province_name,
 	ct.town_name
@@ -403,35 +403,35 @@ SELECT
 	water_source.source_id,
 	water_source.type_of_water_source,
 	well_pollution.results,
-    CASE 
+	CASE 
 	WHEN water_source.type_of_water_source = 'well' THEN
 		IF(well_pollution.results = 'Contaminated: Biological', 'Install UV filter', 'Null') 
-        ELSE 
+	ELSE 
 		IF(well_pollution.results = 'Contaminated: Chemical', 'Install RO filter', 'Null')
 	END AS improvement_plan,    
 	CASE
 		WHEN water_source.type_of_water_source IN ('river') THEN
 		'Drill well'
 	END AS improvement_plan,
-    CASE
-	WHEN water_source.type_of_water_source = 'shared_tap' AND visits.time_in_queue >= 30  
-        THEN CONCAT("Install ", FLOOR(visits.time_in_queue/30), " taps nearby")
+	CASE
+		WHEN water_source.type_of_water_source = 'shared_tap' AND visits.time_in_queue >= 30  
+		THEN CONCAT("Install ", FLOOR(visits.time_in_queue/30), " taps nearby")
 	ELSE NULL
-    END AS improvement_plan,
-    CASE
-	WHEN water_source.type_of_water_source IN ('tap_in_home_broken') THEN 'Diagnose local infrastructure'
+	END AS improvement_plan,
+	CASE
+		WHEN water_source.type_of_water_source IN ('tap_in_home_broken') THEN 'Diagnose local infrastructure'
 	END AS improvement_plan
 FROM
 	water_source
 LEFT JOIN
 	well_pollution 
-    ON water_source.source_id = well_pollution.source_id
+    	ON water_source.source_id = well_pollution.source_id
 INNER JOIN
 	visits 
-    ON water_source.source_id = visits.source_id
+    	ON water_source.source_id = visits.source_id
 INNER JOIN
 	location 
-    ON location.location_id = visits.location_id
+    	ON location.location_id = visits.location_id
 /*
 It joins the location, visits, and well_pollution tables to the water_source table. Since well_pollution only has data for wells,
 we have to join those records to the water_source table with a LEFT JOIN and we used visits to link the various id's together.
