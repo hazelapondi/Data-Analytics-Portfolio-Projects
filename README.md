@@ -1,6 +1,6 @@
 # My Data Analytics Portfolio Projects
 
-## 1. [Covid-19 Deaths and Vaccinations SQL Data Exploration](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/Covid%20Deaths%20and%20Vaccinations.sql "Github")
+## 1. [Covid-19 Deaths and Vaccinations SQL Data Exploration](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/covid_deaths_and_vaccinations.sql)
 
 ![Covid-19 across the globe](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/img/covid.png)
 
