@@ -11,7 +11,7 @@ After downloading the proper data set, I reformatted as necessary. The data capt
 
 ![People queueing for water in Maji Ndogo - 42 Amani Loop, Sokoto](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/img/maji_ndogo.PNG)
 
-Maji Ndogo is a fictitious country facing a water access issue in a number of its provinces. Using SQL I was able to draw insights on areas with very long queues, gender dynamics in queues (with the composition consisting of children, women and men) and even gather findings from a separate table on crime rates at water sources over different days of the week and hours of the day. 
+Maji Ndogo is a fictitious country facing a water access issue in a number of its provinces. Using SQL I was able to draw insights on areas with very long queues, gender dynamics in queues (with the composition consisting of children, women and men) and  findings on crime rates at water sources over different days of the week and hours of the day. 
 
 In summary, the findings included that:
 
@@ -24,4 +24,5 @@ In summary, the findings included that:
   * Queues are longer in the mornings and evenings.
   * Wednesdays and Sundays have the shortest queues
     
-The findings made aid in providing a clear picture of the current situation and helping hone in on interventions to make and areas to work on going forward so we can resolve the water crisis in Maji Ndogo. We were even able to establish fraudulent activities among some of our employees.
+The findings provided a clear picture of the current situation and helped understand areas of improvement to resolve the water crisis in Maji Ndogo. 
+Sidenote: it was interesting determining fraudulent activities among some of our employees and discovering other unexpected insights.
