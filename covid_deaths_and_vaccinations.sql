@@ -7,6 +7,7 @@ WHERE
 ORDER BY
 	3,4;
 
+
 SELECT
 	*
 FROM
@@ -14,8 +15,9 @@ FROM
 ORDER BY
 	3,4;
 
+
 SELECT
-	Location, 
+	location, 
 	date, 
 	total_cases, 
 	new_cases, 
@@ -26,52 +28,55 @@ FROM
 ORDER BY
 	1,2;
 
+
 --Looking at Total Cases vs Total Deaths
 --Shows the likelihood of dying if you contract covid in your country
 SELECT
-	Location, 
+	location, 
 	date, 
 	total_cases, 
 	total_deaths, 
-	(total_deaths/total_cases)*100 as DeathPercentage
+	(total_deaths/total_cases)*100 AS death_percentage
 FROM
 	[Portfolio Project]..CovidDeaths$
 WHERE 
-	location like '%states%'
+	location LIKE '%states%'
 ORDER BY
 	1,2;
+
 
 --Looking at Total Cases vs Population
 --Shows what percentage of the population got covid
 
 SELECT
-	Location, 
+	location, 
 	date, 
 	population, 
 	total_cases, 
-	(total_cases/population)*100 as DeathPercentage
+	(total_cases/population)*100 AS death_percentage
 FROM
 	[Portfolio Project]..CovidDeaths$
 WHERE
-	location like '%states%'
+	location LIKE '%states%'
 ORDER BY
 	1,2;
+
 
 --Looking at Countries with highest Infection Rate compared to Population
 
 SELECT
-	Location, 
-	Population, 
-	MAX(total_cases) as HighestInfectionCount,
-	MAX((total_cases/population))*100 as PercentPopulationInfected
+	location, 
+	population, 
+	MAX(total_cases) AS highest_infection_count,
+	MAX((total_cases/population))*100 AS percent_population_infected
 FROM
 	[Portfolio Project]..CovidDeaths$
---WHERE location LIKE '%states%'
 GROUP BY
-	Location, 
-	Population
+	location, 
+	population
 ORDER BY
-	PercentPopulationInfected DESC;
+	percent_population_infected DESC;
+
 
 --Showing the Countries with the highest death count per Population
 
@@ -79,58 +84,57 @@ ORDER BY
 
 SELECT
 	location, 
-	MAX(cast(Total_deaths as int)) as TotalDeathCount
+	MAX(CAST(total_deaths AS int)) AS total_death_count
 FROM
 	[Portfolio Project]..CovidDeaths$
---WHERE location LIKE '%states%'
 WHERE
 	continent IS NULL
 GROUP BY
 	location
 ORDER BY
-	TotalDeathCount DESC;
+	total_death_count DESC;
+
 
 --Showing continents with the highest death count per population
 
 SELECT
 	continent,
-	MAX(cast(Total_deaths as int)) as TotalDeathCount
+	MAX(CAST(total_deaths AS int)) AS total_death_count
 FROM
 	[Portfolio Project]..CovidDeaths$
---WHERE location LIKE '%states%'
 WHERE
 	continent IS NOT NULL
 GROUP BY
 	continent
 ORDER BY
-	TotalDeathCount DESC;
+	total_death_count DESC;
+
 
 --GLOBAL NUMBERS
 SELECT
-	SUM(new_cases) as total_cases, 
-	SUM(cast(new_deaths as int)) as total_deaths,
-	SUM(cast(new_deaths as int))/SUM(New_Cases)*100 as DeathPercentage
+	SUM(new_cases) AS total_cases, 
+	SUM(CAST(new_deaths AS INT)) AS total_deaths,
+	SUM(CAST(new_deaths AS INT))/SUM(new_cases)*100 AS death_percentage
 FROM
 	[Portfolio Project]..CovidDeaths$
---WHERE location LIKE '%states%'
 WHERE
-	continent IS NOT NULL
---GROUP BY date 
+	continent IS NOT NULL 
 ORDER BY
 	1,2;
+
 
 --Looking at Total Population vs Vaccinations
 
 --USE CTE
 
-WITH PopvsVac (Continent,Location, Date, Population, New_Vaccinations, RollingPeopleVaccinated)AS(
+WITH pop_vs_vac (continent, location, date, population, new_vaccinations, rolling_people_vaccinated)AS(
 	SELECT
 		dea.continent, 
 		dea.location, 
 		dea.date, 
 		dea.population, 
 		vac.new_vaccinations, 
-		SUM(CONVERT(int,vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.Date) AS RollingPeopleVaccinated
+		SUM(CONVERT(INT,vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.Date) AS rolling_people_vaccinated
 	FROM
 		[Portfolio Project]..CovidDeaths$ AS dea
 	JOIN
@@ -139,23 +143,23 @@ WITH PopvsVac (Continent,Location, Date, Population, New_Vaccinations, RollingPe
 		dea.location = vac.location
 		AND dea.date = vac.date
 	WHERE dea.continent IS NOT NULL
-	--ORDER BY 2,3
 	)
 SELECT
 	*, 
-	(RollingPeopleVaccinated/Population)*100
+	(rolling_people_vaccinated/population)*100
 FROM
-	PopvsVac;
+	pop_vs_vac;
+
 
 --TEMP TABLE
-DROP TABLE IF EXISTS #PercentPopulationVaccinated
-CREATE TABLE #PercentPopulationVaccinated(
-	Continent nvarchar(255),
-	Location nvarchar(255)
-	Date datetime,
-	Population numeric,
-	New_Vaccinations numeric,
-	RollingPeopleVaccinated numeric,
+DROP TABLE IF EXISTS #percent_population_vaccinated
+CREATE TABLE #percent_population_vaccinated(
+	continent NVARCHAR(255),
+	location NVARCHAR(255)
+	date DATETIME,
+	population NUMERIC,
+	new_vaccinations NUMERIC,
+	rolling_people_vaccinated NUMERIC,
 )
 
 INSERT INTO
@@ -165,7 +169,7 @@ SELECT
 	dea.date, 
 	dea.population, 
 	vac.new_vaccinations, 
-	SUM(CONVERT(int,vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.Date) AS RollingPeopleVaccinated
+	SUM(CONVERT(INT,vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) AS rolling_people_vaccinated
 FROM
 	[Portfolio Project]..CovidDeaths$ AS dea
 JOIN
@@ -175,24 +179,24 @@ ON
 	AND dea.date = vac.date
 WHERE 
 	dea.continent IS NOT NULL
---ORDER BY 2,3
 )
 SELECT
 	*, 
-	(RollingPeopleVaccinated/Population)*100
+	(rolling_people_vaccinated/population)*100
 FROM
-	#PercentPopulationVaccinated;
+	#percent_population_vaccinated;
+
 
 --Creating View to store data for later visualizations
 
-CREATE VIEW PercentPopulationVaccinated AS
+CREATE VIEW percent_population_vaccinated AS
 	SELECT
 		dea.continent, 
 		dea.location, 
 		dea.date, 
 		dea.population, 
 		vac.new_vaccinations, 
-		SUM(CONVERT(int,vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.Date) AS RollingPeopleVaccinated
+		SUM(CONVERT(INT,vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) AS rolling_people_vaccinated
 	FROM
 		[Portfolio Project]..CovidDeaths$ AS dea
 	JOIN
@@ -202,9 +206,8 @@ CREATE VIEW PercentPopulationVaccinated AS
 		AND dea.date = vac.date
 	WHERE
 		dea.continent IS NOT NULL
-	--ORDER BY 2,3
 
 SELECT
 	*
 FROM
-	PercentPopulationVaccinated;
+	percent_population_vaccinated;
