@@ -25,4 +25,5 @@ In summary, the findings included that:
   * Wednesdays and Sundays have the shortest queues
     
 The findings provided a clear picture of the current situation and helped understand areas of improvement to resolve the water crisis in Maji Ndogo. 
+
 Sidenote: it was interesting determining fraudulent activities among some of our employees and discovering other unexpected insights.
