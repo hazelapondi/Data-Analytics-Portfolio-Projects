@@ -1,5 +1,3 @@
-USE md_water_services; 
-
 -- Determine number of sources for each location type
 SELECT DISTINCT(location_type),
 	COUNT(town_name)    
@@ -119,12 +117,7 @@ CREATE TABLE auditor_report (
 	statements VARCHAR(255)
 );
 
-SELECT
-	location_id,
-	true_water_source_score
-FROM
-	auditor_report;
-    
+-- Create CTE 
 WITH
 	Incorrect_records AS(
     	SELECT
@@ -156,7 +149,7 @@ WITH
 		AND auditor_report.true_water_source_score != water_quality.subjective_quality_score
 	LIMIT 
 		10000),
-	error_count AS (
+	error_count AS ( -- This CTE calculates the number of mistakes each employee made
 	SELECT
 		DISTINCT employee_name, -- List of unique employee names
 		COUNT(employee_name) AS number_of_mistakes
@@ -166,7 +159,7 @@ WITH
 		employee_name
 	ORDER BY 
 		number_of_mistakes DESC),
-	suspect_list AS (
+	suspect_list AS ( -- This CTE SELECTS the employees with above−average mistakes
 		SELECT 
 			employee_name,
 			number_of_mistakes
@@ -211,53 +204,7 @@ SELECT
   * 
 FROM Incorrect_records;
 
-
--- converting error_count into a CTE
-
-WITH error_count AS ( -- This CTE calculates the number of mistakes each employee made
-	SELECT
-		employee_name,
-		COUNT(employee_name) AS number_of_mistakes
-	FROM
-		Incorrect_records 
-/*
-Incorrect_records is a view that joins the audit report to the database for records where the auditor and employees scores are different
-*/
-	GROUP BY
-		employee_name)
--- Query
-SELECT 
-	employee_name,
-	number_of_mistakes
-FROM 
-	error_count
-WHERE
-	number_of_mistakes > ( SELECT AVG(number_of_mistakes) FROM error_count )
-GROUP BY
-	employee_name;
-    
-
-WITH error_count AS ( -- This CTE calculates the number of mistakes each employee made
-	SELECT
-		employee_name,
-		COUNT(employee_name) AS number_of_mistakes
-	FROM
-		Incorrect_records
-		/*
-		Incorrect_records is a view that joins the audit report to the database
-		for records where the auditor and employees scores are different
-		*/
-	GROUP BY
-		employee_name),
-suspect_list AS (-- This CTE SELECTS the employees with above−average mistakes
-	SELECT
-		employee_name,
-		number_of_mistakes
-	FROM
-		error_count
-	WHERE
-		number_of_mistakes > (SELECT AVG(number_of_mistakes) FROM error_count))
--- This query filters all of the records where the "corrupt" employees gathered data.
+-- This query filters all of the records where "corrupt" employees gathered data.
 SELECT
 	employee_name,
 	location_id,
@@ -339,9 +286,14 @@ CREATE TEMPORARY TABLE town_aggregated_water_access
 WITH town_totals AS (
 	-- This CTE calculates the population of each town
 	-- Since there are two Harare towns, we have to group by province_name and town_name
-	SELECT province_name, town_name, SUM(people_served) AS total_ppl_serv
+	SELECT 
+		province_name, 
+		town_name, 
+		SUM(people_served) AS total_ppl_serv
 	FROM combined_analysis_table
-	GROUP BY province_name,town_name
+	GROUP BY 
+		province_name,
+		town_name
 	)
 SELECT
 	ct.province_name,
@@ -363,44 +315,50 @@ JOIN -- Since the town names are not unique, we have to join on a composite key
 ON 
 	ct.province_name = tt.province_name 
 	AND ct.town_name = tt.town_name
-GROUP BY -- We group by province first, then by town.
+GROUP BY -- We group by province first then by town
 	ct.province_name,
 	ct.town_name
 ORDER BY
 	ct.town_name;
-    
+
+-- Querying town_aggregated_water_access
 SELECT
 	province_name,
 	town_name,
 	ROUND(tap_in_home_broken / (tap_in_home_broken + tap_in_home) *	100,0) AS Pct_broken_taps
 FROM
 	town_aggregated_water_access;
-    
+
+/*
+Create a table Project_progress including the following columns:
+Project_id −− Unique key for sources in case we visit the same source more than once in the future.
+source_id −− Each of the sources we want to improve should exist and should refer to the source table. This ensures data integrity.
+Address -- Street address
+Improvement -- What the engineers should do at that place
+Source_status −− We want to limit the type of information engineers can give us, so we limit Source_status.
+	− By DEFAULT all projects are in the "Backlog" which is like a TODO list.
+	− CHECK() ensures only those three options will be accepted. This helps to maintain clean data.
+Date_of_completion -- Engineers will add this the day the source has been upgraded.
+Comments -- Engineers can leave comments. We use a TEXT type that has no limit on char length
+*/
+
 CREATE TABLE Project_progress (
 	Project_id SERIAL PRIMARY KEY,
-	/* 
-    Project_id −− Unique key for sources in case we visit the same source more than once in the future.
-	*/
 	source_id VARCHAR(20) NOT NULL REFERENCES water_source(source_id) ON DELETE CASCADE ON UPDATE CASCADE,
-	/* 
-    source_id −− Each of the sources we want to improve should exist, and should refer to the source table. This ensures data integrity.
-	*/
-	Address VARCHAR(50), -- Street address
+	Address VARCHAR(50), 
 	Town VARCHAR(30),
 	Province VARCHAR(30),
 	Source_type VARCHAR(50),
-	Improvement VARCHAR(50), -- What the engineers should do at that place
+	Improvement VARCHAR(50), 
 	Source_status VARCHAR(50) DEFAULT 'Backlog' CHECK (Source_status IN ('Backlog', 'In progress', 'Complete')),
-	/* 
-    Source_status −− We want to limit the type of information engineers can give us, so we limit Source_status.
-	− By DEFAULT all projects are in the "Backlog" which is like a TODO list.
-	− CHECK() ensures only those three options will be accepted. This helps to maintain clean data.
-	*/
-	Date_of_completion DATE, -- Engineers will add this the day the source has been upgraded.
-	Comments TEXT -- Engineers can leave comments. We use a TEXT type that has no limit on char length
+	Date_of_completion DATE, 
+	Comments TEXT 
 );
 
--- Project_progress_query
+/*
+Join the location, visits, and well_pollution tables to the water_source table. Since well_pollution only has data for wells,
+we have to join those records to the water_source table with a LEFT JOIN, and we use visits to link the various id's together.
+*/
 SELECT
 	location.address,
 	location.town_name,
@@ -411,7 +369,7 @@ SELECT
 	CASE 
 		WHEN water_source.type_of_water_source = 'well' THEN
 			IF(well_pollution.results = 'Contaminated: Biological', 'Install UV filter', 'Null') 
-		ELSE 
+			ELSE 
 			IF(well_pollution.results = 'Contaminated: Chemical', 'Install RO filter', 'Null')
 	END AS improvement_plan,    
 	CASE
@@ -440,18 +398,10 @@ INNER JOIN
 	location 
 ON 
 	location.location_id = visits.location_id
-/*
-It joins the location, visits, and well_pollution tables to the water_source table. Since well_pollution only has data for wells,
-we have to join those records to the water_source table with a LEFT JOIN and we used visits to link the various id's together.
-*/
 WHERE
 	visits.visit_count = 1 -- This must always be true
-	AND ( 
-    -- AND one of the following (OR) options must be true as well.
+	AND ( -- AND one of the following (OR) options must be true as well.
 	well_pollution.results != 'Clean'
 	OR water_source.type_of_water_source IN ('tap_in_home_broken','river')
 	OR (water_source.type_of_water_source = 'shared_tap' AND visits.time_in_queue >= 30)
 	);
-
-
-
