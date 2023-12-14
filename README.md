@@ -6,7 +6,7 @@
 
 I used SQL for Data Exploration of the Covid-19 Deaths and Vaccinations from a data set obtained from [Our World in Data](https://ourworldindata.org/covid-deaths "Coronavirus"). After downloading the data set, I transformed it. The data captures confirmed deaths from Covid-19 from Jan 2021. 
 
-I explored covid cases, deaths and vaccinations to learn more about statistics such as the global & regional death and infection percentages, the population vs number of people vaccinated among others.
+I explored Covid-19 Cases, Deaths and Vaccinations to learn more about statistics such as the global & regional death and infection percentages, the population vs number of people vaccinated among others.
 
 ## 2. [Maji Ndogo Querying Data with SQL](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/maji_ndogo.sql)
 
@@ -27,4 +27,4 @@ In summary, the findings included that:
     
 The findings provided a clear picture of the current situation and helped understand areas of improvement to resolve the water crisis in Maji Ndogo. 
 
-Sidenote: it was interesting determining fraudulent activities among some of our employees and discovering other unexpected insights.
+Sidenote: it was interesting determining fraudulent activities among some employees and discovering other unexpected insights.
