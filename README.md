@@ -34,22 +34,22 @@ Sidenote: it was interesting determining fraudulent activities among some employ
 
 I queried [a dataset](https://drive.google.com/file/d/1ZpBC71J-SFbA0tgJjWiNy58QA57YT1I8/view) (I got from [Frank’s blog](https://towardsdatascience.com/9-sql-core-concepts-that-helped-me-get-my-first-data-analyst-job-a582f892276f)) containing information about 100+ top football players and gained the insights below:
 
-*The eldest player was born in 1981 and the youngest in 2000. A reminder that football’s narrative is written by players young and old.
+* The eldest player was born in 1981 and the youngest in 2000. A reminder that football’s narrative is written by players young and old.
 
-*The average height of players is 182.79 cm, and the average weight stands at 78.10 kg.
+* The average height of players is 182.79 cm, and the average weight stands at 78.10 kg.
 
 *Most top players are between the ages 26 to 30, with 71 out of 148 players falling in this age group.
 
-*Goalkeepers (GK) account for the highest number of top players, with a count of 22 players. On the flip side, the attacking midfielders on the right (RAM) and left (LAM) find themselves in solitary splendor, each with only one player.
+* Goalkeepers (GK) account for the highest number of top players, with a count of 22 players. On the flip side, the attacking midfielders on the right (RAM) and left (LAM) find themselves in solitary splendor, each with only one player.
 
-*Brazil is a football powerhouse, with 19 players, closely trailing behind the football juggernaut Spain, with 20 players. Meanwhile, the football landscape is painted with diversity, as many nations are represented by only one or two players. France and Germany both have 17 players each, while Italy and Argentina showcase their prowess with 7 players, among the other nations represented.
+* Brazil has 19 players, closely trailing behind Spain with 20 players. Many nations are represented by only one or two players. Whereas France and Germany both have 17 players each, while Italy and Argentina have 7 players.
 
-*FC Barcelona and FC Bayern München are at the pinnacle, both with a squad of 15 players. Closely followed by Real Madrid with 14 players. The narrative extends to the other football clubs with their distribution of players. Among the other clubs featured Manchester City has 12 players, Liverpool has 8, Tottenham Hotspur has 6, Arsenal has 5, Chelsea has 3 and Manchester United has 2.
+* FC Barcelona and FC Bayern München both have a squad of 15 players. Followed by Real Madrid with 14 players. Among the other clubs featured Manchester City has 12 players, Liverpool has 8, Tottenham Hotspur has 6, Arsenal has 5, Chelsea has 3 and Manchester United has 2.
 
-*Barcelona, Real Madrid, Manchester City, and Manchester United are the economic powerhouses, with average wages surpassing the 200-euro mark, while FC Bayern München stands strong at a little over 140 euros.
+* Barcelona, Real Madrid, Manchester City, and Manchester United are the economic powerhouses, with average wages surpassing the 200-euro mark, while FC Bayern München stands strong at a little over 140 euros.
 
-*Lionel Messi, Eden Hazard, Cristiano Ronaldo, Kevin De Bruyne, and Antoine Griezmann emerge as the top grossing players in terms of wages i.e. the highest earners.
+* Lionel Messi, Eden Hazard, Cristiano Ronaldo, Kevin De Bruyne, and Antoine Griezmann emerge as the top grossing players in terms of wages i.e. the highest earners.
 
-*Neymar da Silva, Lionel Messi, Kylian Mbappé, Eden Hazard, Kevin De Bruyne, and Harry Kane emerge as the titans with the highest market values.
+* Neymar da Silva, Lionel Messi, Kylian Mbappé, Eden Hazard, Kevin De Bruyne, and Harry Kane emerge as the titans with the highest market values.
 
-*The average wage-value ratio is 3.79, indicating the average player in the dataset earns approximately 3.79 times their market value annually.
+* The average wage-value ratio is 3.79, indicating the average player in the dataset earns approximately 3.79 times their market value annually.
