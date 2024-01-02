@@ -29,7 +29,7 @@ The findings provided a clear picture of the current situation and helped unders
 
 Sidenote: it was interesting determining fraudulent activities among some employees and discovering other unexpected insights.
 
-##3 [Top Football Players](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/SQL/football_players.sql)
+## 3. [Top Football Players](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/SQL/football_players.sql)
 ![Group of sports players kneeling on a field](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/img/football_players.png)
 
 I queried [a dataset](https://drive.google.com/file/d/1ZpBC71J-SFbA0tgJjWiNy58QA57YT1I8/view) (I got from [Frank’s blog](https://towardsdatascience.com/9-sql-core-concepts-that-helped-me-get-my-first-data-analyst-job-a582f892276f)) containing information about 100+ top football players and gained the insights below:
