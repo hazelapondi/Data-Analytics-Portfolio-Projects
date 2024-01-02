@@ -1,6 +1,6 @@
 # My Data Analytics Portfolio Projects
 
-## 1. [Covid-19 Deaths and Vaccinations SQL Data Exploration](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/SQL/covid_deaths_and_vaccinations.sql)
+## 1. [Covid-19 Deaths and Vaccinations: SQL Data Exploration](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/SQL/covid_deaths_and_vaccinations.sql)
 
 ![Covid-19 across the globe](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/img/covid.png)
 
@@ -8,7 +8,7 @@ I used SQL for Data Exploration of the Covid-19 Deaths and Vaccinations from a d
 
 I explored Covid-19 Cases, Deaths and Vaccinations to learn more about statistics such as the global & regional death and infection percentages, the population vs number of people vaccinated among others.
 
-## 2. [Maji Ndogo Querying Data with SQL](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/SQL/maji_ndogo.sql)
+## 2. [Maji Ndogo: Querying Data with SQL](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/SQL/maji_ndogo.sql)
 
 ![People queueing for water in Maji Ndogo - 42 Amani Loop, Sokoto](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/img/maji_ndogo.PNG)
 
@@ -29,7 +29,7 @@ The findings provided a clear picture of the current situation and helped unders
 
 Sidenote: it was interesting determining fraudulent activities among some employees and discovering other unexpected insights.
 
-## 3. [Top Football Players](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/SQL/football_players.sql)
+## 3. [Top Football Players:Querying Data with SQL](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/SQL/football_players.sql)
 ![Group of sports players kneeling on a field](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/img/football_players.png)
 
 I queried [a dataset](https://drive.google.com/file/d/1ZpBC71J-SFbA0tgJjWiNy58QA57YT1I8/view) (I got from [Frank’s blog](https://towardsdatascience.com/9-sql-core-concepts-that-helped-me-get-my-first-data-analyst-job-a582f892276f)) containing information about 100+ top football players and gained the insights below:
