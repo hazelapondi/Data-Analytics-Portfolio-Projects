@@ -53,3 +53,31 @@ I queried [a dataset](https://drive.google.com/file/d/1ZpBC71J-SFbA0tgJjWiNy58QA
 * Neymar da Silva, Lionel Messi, Kylian Mbappé, Eden Hazard, Kevin De Bruyne, and Harry Kane emerge as the titans with the highest market values.
 
 * The average wage-value ratio is 3.79, indicating the average player in the dataset earns approximately 3.79 times their market value annually.
+
+## 4. [Investigating Netflix Data: Exploratory Data Analysis with Python](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/Python/investigating_netflix_movies.py)
+![A computer screen showing a selection of movies on Netflix](https://github.com/hazelapondi/Data-Analytics-Portfolio-Projects/blob/main/img/netflix.png)
+
+Netflix! What started in 1997 as a DVD rental service has since exploded into one of the largest entertainment and media companies. As of the fourth quarter of 2023, Netflix has approximately 260 million paid subscribers worldwide.
+
+In this project, I conducted exploratory data analysis of Netflix movie data. (This is a DataCamp project). The hypothesis was that the average duration of movies has been declining. So I set out to determine whether movie lengths are actually getting shorter and what are some contributing factors, if any.
+
+## The data
+### **netflix_data.csv**
+| Column | Description |
+|--------|-------------|
+| `show_id` | The ID of the show |
+| `type` | Type of show |
+| `title` | Title of the show |
+| `director` | Director of the show |
+| `cast` | Cast of the show |
+| `country` | Country of origin |
+| `date_added` | Date added to Netflix |
+| `release_year` | Year of Netflix release |
+| `duration` | Duration of the show in minutes |
+| `description` | Description of the show |
+| `genre` | Show genre |
+
+While newer movies are overrepresented on the platform, many short movies have been released in the past two decades.
+It also looks like many of the films under 60 minutes fall into genres such as "Children", "Stand-Up", and "Documentaries". This is a logical result, as these types of films are probably often shorter than standard 90 minute Hollywood blockbuster.
+
+Closer inspection of our scatter plot ("Movie Duration by Year of Release") also reveals non-typical genres such as children's movies and documentaries are all clustered around the bottom half of the plot, this is not unexpected. Based on our plot, we cannot however conclude with certainty whether movies are actually getting shorter.
